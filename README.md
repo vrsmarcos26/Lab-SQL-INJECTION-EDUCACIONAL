@@ -27,8 +27,8 @@ Você precisará ter o **PHP** e o **MySQL** (ou MariaDB) instalados em sua máq
 
 1.  **Clone o Repositório**
     ```bash
-    git clone [https://github.com/SEU-USUARIO-GITHUB/NOME-DO-SEU-REPOSITORIO.git](https://github.com/SEU-USUARIO-GITHUB/NOME-DO-SEU-REPOSITORIO.git)
-    cd NOME-DO-SEU-REPOSITORIO
+    git clone [https://github.com/vrsmarcos26/Lab-SQL-INJECTION-EDUCACIONAL.git](https://github.com/vrsmarcos26/Lab-SQL-INJECTION-EDUCACIONAL.git)
+    cd Lab-SQL-INJECTION-EDUCACIONAL
     ```
 
 2.  **Configure o Banco de Dados**
