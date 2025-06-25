@@ -8,7 +8,6 @@
 
 <p align="center">
   <img alt="Linguagens" src="https://img.shields.io/github/languages/top/vrsmarcos26/Lab-SQL-INJECTION-EDUCACIONAL?style=for-the-badge&color=563D7C">
-  <img alt="Licença" src="https://img.shields.io/github/license/vrsmarcos26/Lab-SQL-INJECTION-EDUCACIONAL?style=for-the-badge&color=blue">
   <img alt="Último Commit" src="https://img.shields.io/github/last-commit/vrsmarcos26/Lab-SQL-INJECTION-EDUCACIONAL?style=for-the-badge&color=green">
 </p>
 
