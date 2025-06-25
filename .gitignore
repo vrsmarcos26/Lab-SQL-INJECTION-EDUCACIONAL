@@ -1,0 +1,14 @@
+# Ignorar arquivos de configuração de IDEs
+.vscode/
+.idea/
+
+# Ignorar arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de dependências (se houver no futuro)
+vendor/
+composer.lock
+
+# Ignorar arquivos de ambiente com senhas
+.env
