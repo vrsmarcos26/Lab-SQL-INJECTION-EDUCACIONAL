@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tela de Login</title>
+        <style>
+            .container{
+                display: flex;
+                justify-content: center;
+            }
+            .btn-login{
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            .input{
+                margin-top: 5px;
+            }
+        </style> 
+    </head>
+    <body>
+        <div class="container">
+            <div id="login_form">
+
+                <h3 class="container">Tela de Login</h3>
+
+                <br>
+                <form onsubmit="fazerLogin(); return false;">
+                    <input id="username" name="username" type="text" placeholder="username" class="input" required><br>
+                    <input id="password" name="password" type="password" placeholder="password" class="input"><br>
+                    <br>
+                    <div class="btn-login">
+                        <button id="login_btn" type="submit">Login</button>
+                    </div> 
+                </form>
+                <p id="message" style="text-align: center; margin-top: 15px;"></p>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        function fazerLogin(){
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var messageElement = document.getElementById("message");
+
+            console.log("User: ", username);
+            console.log("Pass: ", password);
+
+            var xhttp = new XMLHttpRequest();
+            // Aponta para o novo arquivo que só tem a lógica PHP
+            xhttp.open("POST", "login.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Exibe a resposta do servidor em um alert
+                    alert(this.responseText); 
+                    // E também em um parágrafo na página para um feedback melhor
+                    messageElement.innerText = this.responseText;
+                }
+            };
+            xhttp.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+        }
+    </script>
+</html>
