@@ -63,7 +63,7 @@ Uma versão interativa Front-end hospedada no GitHub Pages. Perfeita para testar
 🔗 **[Acesse o simulador aqui](https://vrsmarcos26.github.io/Lab-SQL-INJECTION-EDUCACIONAL/simulador/)**
 
 #### **Opção 2: Servidor Real (CTF Completo - Via Docker)**
-A experiência ofensiva definitiva. Uma infraestrutura com Back-end em PHP conectado a um contêiner MySQL real, com volumes compartilhados e permissões estritas configuradas[cite: 29].
+A experiência ofensiva definitiva. Uma infraestrutura com Back-end em PHP conectado a um contêiner MySQL real, com volumes compartilhados e permissões estritas configuradas[].
 1. Clone o Repositório:
 ```bash
 git clone https://github.com/vrsmarcos26/Lab-SQL-INJECTION-EDUCACIONAL.git
