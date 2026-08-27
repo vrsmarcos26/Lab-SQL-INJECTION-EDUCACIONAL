@@ -1,79 +1,60 @@
 <?php
-    $servername = "localhost";
-    $db_username = "sqlinjection"; // Renomeado para não confundir com o post
+    $servername = "db";
+    $db_username = "sqlinjection"; 
     $db_password = "senha@123";
     $dbname = "sqlinjection";
 
     $conn = new mysqli($servername, $db_username, $db_password, $dbname);
 
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        die(json_encode(["status" => "error", "message" => "Erro interno de conexão."]));
     }
 
-    // Verifica se os dados foram enviados via POST
     if (isset($_POST['username']) && isset($_POST['password'])) {
         $user = $_POST['username'];
         $pass = $_POST['password'];
 
-        // Consulta SQL vulnerável (como planejado para o laboratório)
         $sql = "SELECT * FROM users WHERE name = '$user' AND password = '$pass'";
-
         $result = $conn->query($sql);
         
-        // Verifica se a consulta retornou algum resultado
-        if ($result && $result->num_rows > 0) {
+        if (!$result) {
+             echo json_encode(["status" => "error", "message" => "Erro na sintaxe SQL: " . $conn->error]);
+             exit;
+        }
 
-            if ($result->num_rows > 1) {
-                // Defina sua primeira flag aqui!
-                $flag1 = "FLAG{B4S1C_BYP4SS_1S_D0N3}";
-                echo "Parabéns, você realizou o bypass simples! Sua primeira flag é: " . $flag1;
+        // FLAG 3: Detecção de query bem sucedida sem retorno (INTO OUTFILE)
+        if ($result === true) {
+            echo json_encode(["status" => "success", "message" => "Comando processado. Arquivo gravado no disco do servidor!"]);
+            exit;
+        }
+
+        if ($result->num_rows > 0) {
             
-            }
-            else{
-                // Se o usuário for 'FLAG', mostra a mensagem especial
-                $row = $result->fetch_assoc();
-                if ($row['name'] === 'FLAG') {
-                    $exfiltrated_data = $row['password'];
-                    echo "Excelente! Você conseguiu extrair dados do banco! Conteúdo: " . htmlspecialchars($exfiltrated_data);
-                } else {
-                    echo "Login realizado com sucesso para o usuário: " . htmlspecialchars($row['name']);
+            // FLAG 1: Bypass Simples
+            if ($result->num_rows > 1 && strpos(strtoupper($user), 'UNION') === false && strpos(strtoupper($pass), 'UNION') === false) {
+                echo json_encode(["status" => "success", "flag" => "FLAG{B4S1C_BYP4SS_1S_D0N3}", "message" => "Bypass de Autenticação realizado com sucesso!"]);
+            } 
+            // FLAG 2: Exfiltração de Dados (UNION)
+            else if (strpos(strtoupper($user), 'UNION') !== false || strpos(strtoupper($pass), 'UNION') !== false) {
+                $exfiltrated_data = [];
+                while($row = $result->fetch_assoc()) {
+                    $data = isset($row['password']) ? $row['password'] : implode(" | ", $row);
+                    $exfiltrated_data[] = htmlspecialchars($data);
                 }
+                $dump = implode("<br>", $exfiltrated_data);
+                echo json_encode(["status" => "exfiltration", "flag" => $dump, "message" => "Exfiltração detectada! " . count($exfiltrated_data) . " registros extraídos:"]);
+            }
+            // Login legítimo
+            else {
+                $row = $result->fetch_assoc();
+                echo json_encode(["status" => "success", "message" => "Login realizado com sucesso para: " . htmlspecialchars($row['name'])]);
             }
         } else {
-            echo "Login falhou!";
+            echo json_encode(["status" => "error", "message" => "Credenciais inválidas."]);
         }
     } else {
-        echo "Dados não recebidos.";
+        echo json_encode(["status" => "error", "message" => "Dados não recebidos."]);
     }
-
+    
     $conn->close();
-?>
-
-<?php
-/* \connect root@localhost
- \sql 
-use sqlinjection;
-show tables;
-
-CREATE TABLE users (
-    id INTEGER AUTO_INCREMENT,
-    name VARCHAR(250),
-    password VARCHAR(250),
-    PRIMARY KEY (id)
-);
-
-INSERT INTO users (id,name,password) VALUE (1,'admin','admin');
-INSERT INTO users (id,name,password) VALUE (2,'vrsmarcos26','gostoudoCTF?');
-INSERT INTO users (id,name,password) VALUE (3,'FLAG','FLAG{1NJ3T4ND0_C0NH3C1M3NT0}');
-
-CREATE user 'sqlinjection'@'%' IDENTIFIED BY 'senha@123'
-
-GRANT ALL PRIVILEGES ON sqlinjection.* TO 'sqlinjection'@'%';
-
-FLUSH PRIVILEGES;
-
-show tables;
-select * from users;
-
-*/
 ?>

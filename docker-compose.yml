@@ -1,0 +1,32 @@
+version: '3.8'
+
+volumes:
+  shared_uploads:
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: aegis_sqli_db
+    command: --secure-file-priv=""
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_segura
+      MYSQL_DATABASE: sqlinjection
+      MYSQL_USER: sqlinjection
+      MYSQL_PASSWORD: senha@123
+    volumes:
+      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      # O MySQL grava na pasta nativa dele
+      - shared_uploads:/var/lib/mysql-files/
+    restart: unless-stopped
+
+  web:
+    build: .
+    container_name: aegis_sqli_web
+    ports:
+      - "8000:80"
+    volumes:
+      # O Apache lê a mesma pasta, mas montada no diretório web
+      - shared_uploads:/var/www/html/uploads/
+    depends_on:
+      - db
+    restart: unless-stopped
