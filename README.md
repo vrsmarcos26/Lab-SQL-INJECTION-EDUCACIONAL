@@ -60,7 +60,7 @@ Este laboratório possui duas formas de execução, permitindo que você estude 
 
 #### **Opção 1: Simulador Web (Estudo Básico)**
 Uma versão interativa Front-end hospedada no GitHub Pages. Perfeita para testar a sintaxe dos payloads de injeção diretamente no navegador, sem precisar instalar dependências.
-🔗 **[Acesse o simulador aqui](https://vrsmarcos26.github.io/Lab-SQL-INJECTION-EDUCACIONAL/simulador/)** *(Não esqueça de ajustar o link para o seu repositório)*
+🔗 **[Acesse o simulador aqui](https://vrsmarcos26.github.io/Lab-SQL-INJECTION-EDUCACIONAL/simulador/)**
 
 #### **Opção 2: Servidor Real (CTF Completo - Via Docker)**
 A experiência ofensiva definitiva. Uma infraestrutura com Back-end em PHP conectado a um contêiner MySQL real, com volumes compartilhados e permissões estritas configuradas[cite: 29].
